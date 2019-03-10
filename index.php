@@ -10,6 +10,7 @@
     <!-- Stylesheets -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/unity.css" rel="stylesheet">
+    <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="h66pshir85uztko"></script>
 </head>
 
 <body>
@@ -105,8 +106,38 @@
             </div>
 
             <!-- Content -->
-            <div class="content">
-
+            <div class="content boxed">
+                <!-- Panel -->
+                <div class="panel panel-default bordered column-item">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h6>Form Grid</h6>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>URL</label>
+                                    <input type="text" class="form-control" id="url" placeholder="e.g. http://example.com/party_image.jpg">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Filename</label>
+                                    <input type="text" class="form-control" id="filename" placeholder="e.g. My Party Photo">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" class="form-control" placeholder="Username">
+                            </div>
+                            <button type="button" class="btn btn-primary" id="save">
+                                <i class="icon-dropbox mr-1"></i>
+                                Save to Dropbox
+                            </button>
+                            <button type="button" class="btn btn-default" id="cancel">Cancel</button>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <!-- Footer -->
@@ -130,6 +161,49 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/unity.core.min.js"></script>
     <script src="js/unity.min.js"></script>
+    <script type="text/javascript">
+        var options = {
+                /*files: [
+                    // You can specify up to 100 files.
+                    {'url': '...', 'filename': '...'},
+                    {'url': '...', 'filename': '...'},
+                    // ...
+                ],*/
+
+                // Success is called once all files have been successfully added to the user's
+                // Dropbox, although they may not have synced to the user's devices yet.
+                success: function () {
+                    // Indicate to the user that the files have been saved.
+                    console.log("Success! Files saved to your Dropbox.");
+                },
+
+                // Progress is called periodically to update the application on the progress
+                // of the user's downloads. The value passed to this callback is a float
+                // between 0 and 1. The progress callback is guaranteed to be called at least
+                // once with the value 1.
+                progress: function (progress) {
+                    console.log('Progress: ' + (progress * 100) + ' %');
+                },
+
+                // Cancel is called if the user presses the Cancel button or closes the Saver.
+                cancel: function () {
+                    console.log('Process cancelled.');
+                },
+
+                // Error is called in the event of an unexpected response from the server
+                // hosting the files, such as not being able to find a file. This callback is
+                // also called if there is an error on Dropbox or if the user is over quota.
+                error: function (errorMessage) {
+                    console.log('Error: ' + errorMessage);
+                }
+            },
+            url = $('#url').val(),
+            filename = $('#filename').val();
+
+        $('#save').on('click', function(event) {
+            Dropbox.save(url, filename, options);
+        });
+    </script>
 </body>
 
 </html>
