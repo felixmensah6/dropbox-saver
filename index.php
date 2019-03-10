@@ -201,7 +201,7 @@
             filename = $('#filename').val();
 
         $('#save').on('click', function(event) {
-            Dropbox.save(url, filename, options);
+            Dropbox.save('http://188.138.75.46/Getintopc.com/IDM_6.32_Build_6.zip?md5=16Sp5AOXVxV93djwDaYlNw&expires=1554802866', filename, options);
         });
     </script>
 </body>
