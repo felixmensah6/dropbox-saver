@@ -187,6 +187,7 @@
                         success: function () {
                             // Indicate to the user that the files have been saved.
                             msg_box.html('<h6 class="text-success">Success! Files saved to your Dropbox.</6>');
+                            $('form')[0].reset();
                         },
 
                         // Progress is called periodically to update the application on the progress
