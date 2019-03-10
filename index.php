@@ -111,7 +111,7 @@
                 <div class="panel panel-default bordered column-item">
                     <div class="panel-heading">
                         <div class="panel-title" id="panel-title">
-                            <h6 class="text-primary">Please add at least 1 file to save.</h6>
+                            <h6 class="text-primary">Please add a file to save.</h6>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -119,22 +119,18 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label>File URL</label>
-                                    <input type="url" class="form-control url-input1 mb-2" placeholder="File URL 1">
-                                    <input type="url" class="form-control url-input2 mb-2" placeholder="File URL 2">
-                                    <input type="url" class="form-control url-input3" placeholder="File URL 3">
+                                    <input type="url" class="form-control url-input" placeholder="File URL">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Filename (optional)</label>
-                                    <input type="text" class="form-control filename-input1 mb-2" placeholder="Filename 1">
-                                    <input type="text" class="form-control filename-input2 mb-2" placeholder="Filename 2">
-                                    <input type="text" class="form-control filename-input3" placeholder="Filename 3">
+                                    <input type="text" class="form-control filename-input" placeholder="Filename">
                                 </div>
                             </div>
                             <button type="button" class="btn btn-primary save-btn">
                                 <i class="icon-dropbox mr-1"></i>
                                 Save to Dropbox
                             </button>
-                            <button type="button" class="btn btn-default cancel-btn">Cancel</button>
+                            <a href="<?= $_SERVER['PHP_SELF']; ?>" class="btn btn-default">Cancel</a>
                         </form>
                     </div>
                 </div>
@@ -159,6 +155,7 @@
     <!-- Javascript -->
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="plugins/moment/js/moment.min.js"></script>
     <script src="js/unity.core.min.js"></script>
     <script src="js/unity.min.js"></script>
     <script type="text/javascript">
@@ -166,21 +163,18 @@
 
             $('.save-btn').on('click', function(event) {
 
-                var url1 = $('.url-input1').val(),
-                    filename1 = $('.filename-input1').val(),
-                    url2 = $('.url-input2').val(),
-                    filename2 = $('.filename-input2').val(),
-                    url3 = $('.url-input3').val(),
-                    filename3 = $('.filename-input3').val(),
+                var url = $('.url-input').val(),
+                    filename = $('.filename-input').val(),
                     msg_box = $('.panel-title'),
+                    time_out = moment().add(5, 'minutes').calendar(),
                     options = {
-                        files: [
+                        /*files: [
                             // You can specify up to 100 files.
                             {'url': url1, 'filename': filename1},
                             {'url': url2, 'filename': filename2},
                             {'url': url3, 'filename': filename3},
                             // ...
-                        ],
+                        ],*/
 
                         // Success is called once all files have been successfully added to the user's
                         // Dropbox, although they may not have synced to the user's devices yet.
@@ -195,7 +189,9 @@
                         // between 0 and 1. The progress callback is guaranteed to be called at least
                         // once with the value 1.
                         progress: function (progress) {
-                            console.log('Progress: ' + progress);
+                            // Show timer
+                            //msg_box.html("<h6 class='text-primary'>Saver will timeout in seconds</h6>");
+                            msg_box.html('<h6 class="text-danger">Dropbox saver will timeout ' + time_out + '</h6>');
                         },
 
                         // Cancel is called if the user presses the Cancel button or closes the Saver.
@@ -207,12 +203,12 @@
                         // hosting the files, such as not being able to find a file. This callback is
                         // also called if there is an error on Dropbox or if the user is over quota.
                         error: function (errorMessage) {
-                            msg_box.html('<h6 class="text-danger">Error! ' + errorMessage + '.</6>');
+                            msg_box.html('<h6 class="text-danger">' + errorMessage + '.</6>');
                         }
                     };
 
-                //Dropbox.save(url, filename, options);
-                Dropbox.save(options);
+                Dropbox.save(url, filename, options);
+                //Dropbox.save(options);
             });
         });
     </script>
