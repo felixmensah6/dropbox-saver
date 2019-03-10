@@ -110,8 +110,8 @@
                 <!-- Panel -->
                 <div class="panel panel-default bordered column-item">
                     <div class="panel-heading">
-                        <div class="panel-title">
-                            <h6>Form Grid</h6>
+                        <div class="panel-title" id="panel-title">
+                            <h6 class="text-primary">Please add at least 1 file to save.</h6>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -119,16 +119,16 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label>File URL</label>
-                                    <input type="url" class="form-control url-input" placeholder="e.g. http://example.com/party_image.jpg" required>
+                                    <input type="url" class="form-control url-input1 mb-2" placeholder="File URL 1">
+                                    <input type="url" class="form-control url-input2 mb-2" placeholder="File URL 2">
+                                    <input type="url" class="form-control url-input3" placeholder="File URL 3">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Filename (optional)</label>
-                                    <input type="text" class="form-control filename-input" placeholder="e.g. new_name.jpg">
+                                    <input type="text" class="form-control filename-input1 mb-2" placeholder="Filename 1">
+                                    <input type="text" class="form-control filename-input2 mb-2" placeholder="Filename 2">
+                                    <input type="text" class="form-control filename-input3" placeholder="Filename 3">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Username</label>
-                                <input type="text" class="form-control" placeholder="Username">
                             </div>
                             <button type="button" class="btn btn-primary save-btn">
                                 <i class="icon-dropbox mr-1"></i>
@@ -166,19 +166,27 @@
 
             $('.save-btn').on('click', function(event) {
 
-                var options = {
-                        /*files: [
+                var url1 = $('.url-input1').val(),
+                    filename1 = $('.filename-input1').val(),
+                    url2 = $('.url-input2').val(),
+                    filename2 = $('.filename-input2').val(),
+                    url3 = $('.url-input3').val(),
+                    filename3 = $('.filename-input3').val(),
+                    msg_box = $('.panel-title'),
+                    options = {
+                        files: [
                             // You can specify up to 100 files.
-                            {'url': '...', 'filename': '...'},
-                            {'url': '...', 'filename': '...'},
+                            {'url': url1, 'filename': filename1},
+                            {'url': url2, 'filename': filename2},
+                            {'url': url3, 'filename': filename3},
                             // ...
-                        ],*/
+                        ],
 
                         // Success is called once all files have been successfully added to the user's
                         // Dropbox, although they may not have synced to the user's devices yet.
                         success: function () {
                             // Indicate to the user that the files have been saved.
-                            console.log("Success! Files saved to your Dropbox.");
+                            msg_box.html('<h6 class="text-success">Success! Files saved to your Dropbox.</6>');
                         },
 
                         // Progress is called periodically to update the application on the progress
@@ -191,24 +199,19 @@
 
                         // Cancel is called if the user presses the Cancel button or closes the Saver.
                         cancel: function () {
-                            console.log('Process cancelled.');
+                            msg_box.html('<h6 class="text-warning">The saver process was aborted.</6>');
                         },
 
                         // Error is called in the event of an unexpected response from the server
                         // hosting the files, such as not being able to find a file. This callback is
                         // also called if there is an error on Dropbox or if the user is over quota.
                         error: function (errorMessage) {
-                            console.log('Error: ' + errorMessage);
+                            msg_box.html('<h6 class="text-danger">Error! ' + errorMessage + '.</6>');
                         }
-                    },
-                    url = $('.url-input').val(),
-                    filename = $('.filename-input').val();
+                    };
 
-                if(url == '') {
-                    alert('You must provide an address to a file.')
-                }else{
-                    Dropbox.save(url, filename, options);
-                }
+                //Dropbox.save(url, filename, options);
+                Dropbox.save(options);
             });
         });
     </script>
