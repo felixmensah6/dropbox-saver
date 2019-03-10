@@ -119,11 +119,11 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label>URL</label>
-                                    <input type="text" class="form-control" id="url" placeholder="e.g. http://example.com/party_image.jpg">
+                                    <input type="text" class="form-control" name="url" id="url" placeholder="e.g. http://example.com/party_image.jpg">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Filename</label>
-                                    <input type="text" class="form-control" id="filename" placeholder="e.g. My Party Photo">
+                                    <input type="text" class="form-control" name="myfile" id="filename" placeholder="e.g. My Party Photo">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -182,7 +182,7 @@
                 // between 0 and 1. The progress callback is guaranteed to be called at least
                 // once with the value 1.
                 progress: function (progress) {
-                    console.log('Progress: ' + (progress * 100) + ' %');
+                    console.log('Progress: ' + progress);
                 },
 
                 // Cancel is called if the user presses the Cancel button or closes the Saver.
@@ -197,11 +197,11 @@
                     console.log('Error: ' + errorMessage);
                 }
             },
-            url = $('#url').val(),
-            filename = $('#filename').val();
+            address = $('#url').val(),
+            myfile = $('#filename').val();
 
         $('#save').on('click', function(event) {
-            Dropbox.save('http://188.138.75.46/Getintopc.com/IDM_6.32_Build_6.zip?md5=16Sp5AOXVxV93djwDaYlNw&expires=1554802866', filename, options);
+            Dropbox.save(address, myfile, options);
         });
     </script>
 </body>
