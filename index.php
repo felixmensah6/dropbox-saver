@@ -115,26 +115,26 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <form>
+                        <form action="" method="post">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label>URL</label>
-                                    <input type="text" class="form-control" name="url" id="url" placeholder="e.g. http://example.com/party_image.jpg">
+                                    <label>File URL</label>
+                                    <input type="url" class="form-control url-input" placeholder="e.g. http://example.com/party_image.jpg" required>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label>Filename</label>
-                                    <input type="text" class="form-control" name="myfile" id="filename" placeholder="e.g. My Party Photo">
+                                    <label>Filename (optional)</label>
+                                    <input type="text" class="form-control filename-input" placeholder="e.g. new_name.jpg">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Username</label>
                                 <input type="text" class="form-control" placeholder="Username">
                             </div>
-                            <button type="button" class="btn btn-primary" id="save">
+                            <button type="button" class="btn btn-primary save-btn">
                                 <i class="icon-dropbox mr-1"></i>
                                 Save to Dropbox
                             </button>
-                            <button type="button" class="btn btn-default" id="cancel">Cancel</button>
+                            <button type="button" class="btn btn-default cancel-btn">Cancel</button>
                         </form>
                     </div>
                 </div>
@@ -162,46 +162,54 @@
     <script src="js/unity.core.min.js"></script>
     <script src="js/unity.min.js"></script>
     <script type="text/javascript">
-        var options = {
-                /*files: [
-                    // You can specify up to 100 files.
-                    {'url': '...', 'filename': '...'},
-                    {'url': '...', 'filename': '...'},
-                    // ...
-                ],*/
+        $(document).ready(function(){
 
-                // Success is called once all files have been successfully added to the user's
-                // Dropbox, although they may not have synced to the user's devices yet.
-                success: function () {
-                    // Indicate to the user that the files have been saved.
-                    console.log("Success! Files saved to your Dropbox.");
-                },
+            $('.save-btn').on('click', function(event) {
 
-                // Progress is called periodically to update the application on the progress
-                // of the user's downloads. The value passed to this callback is a float
-                // between 0 and 1. The progress callback is guaranteed to be called at least
-                // once with the value 1.
-                progress: function (progress) {
-                    console.log('Progress: ' + progress);
-                },
+                var options = {
+                        /*files: [
+                            // You can specify up to 100 files.
+                            {'url': '...', 'filename': '...'},
+                            {'url': '...', 'filename': '...'},
+                            // ...
+                        ],*/
 
-                // Cancel is called if the user presses the Cancel button or closes the Saver.
-                cancel: function () {
-                    console.log('Process cancelled.');
-                },
+                        // Success is called once all files have been successfully added to the user's
+                        // Dropbox, although they may not have synced to the user's devices yet.
+                        success: function () {
+                            // Indicate to the user that the files have been saved.
+                            console.log("Success! Files saved to your Dropbox.");
+                        },
 
-                // Error is called in the event of an unexpected response from the server
-                // hosting the files, such as not being able to find a file. This callback is
-                // also called if there is an error on Dropbox or if the user is over quota.
-                error: function (errorMessage) {
-                    console.log('Error: ' + errorMessage);
+                        // Progress is called periodically to update the application on the progress
+                        // of the user's downloads. The value passed to this callback is a float
+                        // between 0 and 1. The progress callback is guaranteed to be called at least
+                        // once with the value 1.
+                        progress: function (progress) {
+                            console.log('Progress: ' + progress);
+                        },
+
+                        // Cancel is called if the user presses the Cancel button or closes the Saver.
+                        cancel: function () {
+                            console.log('Process cancelled.');
+                        },
+
+                        // Error is called in the event of an unexpected response from the server
+                        // hosting the files, such as not being able to find a file. This callback is
+                        // also called if there is an error on Dropbox or if the user is over quota.
+                        error: function (errorMessage) {
+                            console.log('Error: ' + errorMessage);
+                        }
+                    },
+                    url = $('.url-input').val(),
+                    filename = $('.filename-input').val();
+
+                if(url == '') {
+                    alert('You must provide an address to a file.')
+                }else{
+                    Dropbox.save(url, filename, options);
                 }
-            },
-            address = $('#url').val(),
-            myfile = $('#filename').val();
-
-        $('#save').on('click', function(event) {
-            Dropbox.save(address, myfile, options);
+            });
         });
     </script>
 </body>
